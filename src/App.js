@@ -1,25 +1,41 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
+import Slider from 'react-custom-slider';
 import './App.css';
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+function FormatNumberLength(num, length) {
+  var r = "" + num;
+  while (r.length < length) {
+      r = "0" + r;
+  }
+  return r;
 }
 
+const App = () => {
+  const [ value, setValue ] = React.useState(0);
+
+  var fileURL = "images\\DAC_Phase2_Aerial_";
+  var fileFormat = ".png";
+  var index = Math.trunc( (value/100)* 98);
+  index = FormatNumberLength(index, 4); 
+  fileURL = (fileURL + index + fileFormat);
+  document.body.style.backgroundImage = "url('fileURL')"
+  console.log(fileURL);
+ 
+  return(
+    <div>
+      <Slider
+        value={value}
+        markersSize={45}
+        trackLength={250}
+        markers={8}
+        onChange={(value) => setValue(value)}
+        valueRenderer={(value) => `${value}%`}
+      />
+    </div>
+  )
+};
+ 
 export default App;
